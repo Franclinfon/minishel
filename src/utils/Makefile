@@ -178,8 +178,8 @@ CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2 -std=c99 -Wall -Wextra -Werror -pedantic -Wvla
 CPPFLAGS =  -D_POSIX_C_SOURCE=200809L
-CRITERION_CFLAGS = 
-CRITERION_LIBS = 
+CRITERION_CFLAGS = -I/usr/local/include 
+CRITERION_LIBS = -L/usr/local/lib/x86_64-linux-gnu -lcriterion 
 CSCOPE = cscope
 CTAGS = ctags
 CYGPATH_W = echo

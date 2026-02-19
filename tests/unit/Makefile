@@ -87,8 +87,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-#check_PROGRAMS = unit_tests$(EXEEXT)
-#TESTS = unit_tests$(EXEEXT)
+check_PROGRAMS = unit_tests$(EXEEXT)
+TESTS = unit_tests$(EXEEXT)
 subdir = tests/unit
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -99,12 +99,13 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__unit_tests_SOURCES_DIST = test_vec.c
-#am_unit_tests_OBJECTS = test_vec.$(OBJEXT)
+am__unit_tests_SOURCES_DIST = test_vec.c test_lexer.c \
+	test_lexer_more.c
+am_unit_tests_OBJECTS = test_vec.$(OBJEXT) \
+	test_lexer.$(OBJEXT) \
+	test_lexer_more.$(OBJEXT)
 unit_tests_OBJECTS = $(am_unit_tests_OBJECTS)
 am__DEPENDENCIES_1 =
-#unit_tests_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-#	$(top_builddir)/src/utils/libms_utils.a
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -120,7 +121,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/test_vec.Po
+am__depfiles_remade = ./$(DEPDIR)/test_lexer.Po \
+	./$(DEPDIR)/test_lexer_more.Po ./$(DEPDIR)/test_vec.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -383,8 +385,8 @@ CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2 -std=c99 -Wall -Wextra -Werror -pedantic -Wvla
 CPPFLAGS =  -D_POSIX_C_SOURCE=200809L
-CRITERION_CFLAGS = 
-CRITERION_LIBS = 
+CRITERION_CFLAGS = -I/usr/local/include 
+CRITERION_LIBS = -L/usr/local/lib/x86_64-linux-gnu -lcriterion 
 CSCOPE = cscope
 CTAGS = ctags
 CYGPATH_W = echo
@@ -470,10 +472,19 @@ top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
 AM_CPPFLAGS = -I$(top_srcdir)/include $(CRITERION_CFLAGS)
-#unit_tests_SOURCES = test_vec.c
-#unit_tests_LDADD = \
-#	$(CRITERION_LIBS) \
-#	$(top_builddir)/src/utils/libms_utils.a
+unit_tests_SOURCES = \
+	test_vec.c \
+	test_lexer.c \
+	test_lexer_more.c
+
+unit_tests_LDADD = \
+	$(CRITERION_LIBS) \
+	$(top_builddir)/src/utils/libms_utils.a \
+	$(top_builddir)/src/lexer/libms_lexer.a
+
+unit_tests_DEPENDENCIES = \
+	$(top_builddir)/src/utils/libms_utils.a \
+	$(top_builddir)/src/lexer/libms_lexer.a
 
 all: all-am
 
@@ -522,6 +533,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+include ./$(DEPDIR)/test_lexer.Po # am--include-marker
+include ./$(DEPDIR)/test_lexer_more.Po # am--include-marker
 include ./$(DEPDIR)/test_vec.Po # am--include-marker
 
 $(am__depfiles_remade):
@@ -863,6 +876,8 @@ clean: clean-am
 clean-am: clean-checkPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
+	-rm -f ./$(DEPDIR)/test_lexer.Po
+	-rm -f ./$(DEPDIR)/test_lexer_more.Po
 	-rm -f ./$(DEPDIR)/test_vec.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -909,6 +924,8 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
+	-rm -f ./$(DEPDIR)/test_lexer.Po
+	-rm -f ./$(DEPDIR)/test_lexer_more.Po
 	-rm -f ./$(DEPDIR)/test_vec.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

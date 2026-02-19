@@ -1,4 +1,4 @@
-test_vec.o: test_vec.c /usr/include/stdc-predef.h \
+test_lexer_more.o: test_lexer_more.c /usr/include/stdc-predef.h \
  /usr/local/include/criterion/criterion.h \
  /usr/local/include/criterion/types.h \
  /usr/local/include/criterion/alloc.h \
@@ -55,7 +55,8 @@ test_vec.o: test_vec.c /usr/include/stdc-predef.h \
  /usr/local/include/criterion/internal/ordered-set.h \
  /usr/local/include/criterion/internal/test.h \
  /usr/local/include/criterion/internal/assert.h \
- ../../include/minishell/vec.h
+ ../../include/minishell/lexer/lexer.h \
+ ../../include/minishell/lexer/token.h
 /usr/include/stdc-predef.h:
 /usr/local/include/criterion/criterion.h:
 /usr/local/include/criterion/types.h:
@@ -117,4 +118,5 @@ test_vec.o: test_vec.c /usr/include/stdc-predef.h \
 /usr/local/include/criterion/internal/ordered-set.h:
 /usr/local/include/criterion/internal/test.h:
 /usr/local/include/criterion/internal/assert.h:
-../../include/minishell/vec.h:
+../../include/minishell/lexer/lexer.h:
+../../include/minishell/lexer/token.h:

@@ -309,19 +309,10 @@ configure:5257: checking pkg-config is at least version 0.9.0
 configure:5260: result: yes
 configure:5270: checking for criterion
 configure:5277: $PKG_CONFIG --exists --print-errors "criterion"
-Package criterion was not found in the pkg-config search path.
-Perhaps you should add the directory containing `criterion.pc'
-to the PKG_CONFIG_PATH environment variable
-Package 'criterion', required by 'virtual:world', not found
-configure:5280: $? = 1
+configure:5280: $? = 0
 configure:5294: $PKG_CONFIG --exists --print-errors "criterion"
-Package criterion was not found in the pkg-config search path.
-Perhaps you should add the directory containing `criterion.pc'
-to the PKG_CONFIG_PATH environment variable
-Package 'criterion', required by 'virtual:world', not found
-configure:5297: $? = 1
-configure:5311: result: no
-Package 'criterion', required by 'virtual:world', not found
+configure:5297: $? = 0
+configure:5335: result: yes
 configure:5460: checking that generated files are newer than configure
 configure:5466: result: done
 configure:5505: creating ./config.status
@@ -353,12 +344,19 @@ config.status:895: creating tests/Makefile
 config.status:895: creating tests/unit/Makefile
 config.status:895: creating tests/func/Makefile
 config.status:895: creating config.h
+config.status:1076: config.h is unchanged
 config.status:1124: executing depfiles commands
 config.status:1199: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/utils       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
+config.status:1206: $? = 0
+config.status:1199: cd src/lexer       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/exec       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd tests/unit       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 config.status:1206: $? = 0
@@ -440,6 +438,8 @@ am_cv_prog_cc_c_o=yes
 am_cv_prog_tar_ustar=gnutar
 am_cv_sleep_fractional_seconds=yes
 am_cv_xargs_n_works=yes
+pkg_cv_CRITERION_CFLAGS='-I/usr/local/include '
+pkg_cv_CRITERION_LIBS='-L/usr/local/lib/x86_64-linux-gnu -lcriterion '
 
 ## ----------------- ##
 ## Output variables. ##
@@ -463,8 +463,8 @@ CC='gcc'
 CCDEPMODE='depmode=gcc3'
 CFLAGS='-g -O2 -std=c99 -Wall -Wextra -Werror -pedantic -Wvla'
 CPPFLAGS=' -D_POSIX_C_SOURCE=200809L'
-CRITERION_CFLAGS=''
-CRITERION_LIBS=''
+CRITERION_CFLAGS='-I/usr/local/include '
+CRITERION_LIBS='-L/usr/local/lib/x86_64-linux-gnu -lcriterion '
 CSCOPE='cscope'
 CTAGS='ctags'
 CYGPATH_W='echo'
@@ -475,8 +475,8 @@ ECHO_N='-n'
 ECHO_T=''
 ETAGS='etags'
 EXEEXT=''
-HAVE_CRITERION_FALSE=''
-HAVE_CRITERION_TRUE='#'
+HAVE_CRITERION_FALSE='#'
+HAVE_CRITERION_TRUE=''
 INSTALL_DATA='${INSTALL} -m 644'
 INSTALL_PROGRAM='${INSTALL}'
 INSTALL_SCRIPT='${INSTALL}'

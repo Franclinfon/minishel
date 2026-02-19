@@ -99,12 +99,13 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__unit_tests_SOURCES_DIST = test_vec.c
-@HAVE_CRITERION_TRUE@am_unit_tests_OBJECTS = test_vec.$(OBJEXT)
+am__unit_tests_SOURCES_DIST = test_vec.c test_lexer.c \
+	test_lexer_more.c
+@HAVE_CRITERION_TRUE@am_unit_tests_OBJECTS = test_vec.$(OBJEXT) \
+@HAVE_CRITERION_TRUE@	test_lexer.$(OBJEXT) \
+@HAVE_CRITERION_TRUE@	test_lexer_more.$(OBJEXT)
 unit_tests_OBJECTS = $(am_unit_tests_OBJECTS)
 am__DEPENDENCIES_1 =
-@HAVE_CRITERION_TRUE@unit_tests_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-@HAVE_CRITERION_TRUE@	$(top_builddir)/src/utils/libms_utils.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -120,7 +121,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/test_vec.Po
+am__depfiles_remade = ./$(DEPDIR)/test_lexer.Po \
+	./$(DEPDIR)/test_lexer_more.Po ./$(DEPDIR)/test_vec.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -470,10 +472,19 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include $(CRITERION_CFLAGS)
-@HAVE_CRITERION_TRUE@unit_tests_SOURCES = test_vec.c
+@HAVE_CRITERION_TRUE@unit_tests_SOURCES = \
+@HAVE_CRITERION_TRUE@	test_vec.c \
+@HAVE_CRITERION_TRUE@	test_lexer.c \
+@HAVE_CRITERION_TRUE@	test_lexer_more.c
+
 @HAVE_CRITERION_TRUE@unit_tests_LDADD = \
 @HAVE_CRITERION_TRUE@	$(CRITERION_LIBS) \
-@HAVE_CRITERION_TRUE@	$(top_builddir)/src/utils/libms_utils.a
+@HAVE_CRITERION_TRUE@	$(top_builddir)/src/utils/libms_utils.a \
+@HAVE_CRITERION_TRUE@	$(top_builddir)/src/lexer/libms_lexer.a
+
+@HAVE_CRITERION_TRUE@unit_tests_DEPENDENCIES = \
+@HAVE_CRITERION_TRUE@	$(top_builddir)/src/utils/libms_utils.a \
+@HAVE_CRITERION_TRUE@	$(top_builddir)/src/lexer/libms_lexer.a
 
 all: all-am
 
@@ -522,6 +533,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_lexer.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_lexer_more.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_vec.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
@@ -863,6 +876,8 @@ clean: clean-am
 clean-am: clean-checkPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
+	-rm -f ./$(DEPDIR)/test_lexer.Po
+	-rm -f ./$(DEPDIR)/test_lexer_more.Po
 	-rm -f ./$(DEPDIR)/test_vec.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -909,6 +924,8 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
+	-rm -f ./$(DEPDIR)/test_lexer.Po
+	-rm -f ./$(DEPDIR)/test_lexer_more.Po
 	-rm -f ./$(DEPDIR)/test_vec.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
