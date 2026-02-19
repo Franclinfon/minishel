@@ -1,2 +1,1 @@
-diff: cases/012-false.expected.out: Aucun fichier ou dossier de ce nom
-FAIL run.sh (exit status: 2)
+PASS run.sh (exit status: 0)

@@ -3,10 +3,10 @@
 ==============================================
 
 # TOTAL: 1
-# PASS:  0
+# PASS:  1
 # SKIP:  0
 # XFAIL: 0
-# FAIL:  1
+# FAIL:  0
 # XPASS: 0
 # ERROR: 0
 
@@ -22,10 +22,4 @@ ID_LIKE=debian
 HOME_URL="https://www.kali.org/"
 
 .. contents:: :depth: 2
-
-FAIL: run.sh
-============
-
-diff: cases/012-false.expected.out: Aucun fichier ou dossier de ce nom
-FAIL run.sh (exit status: 2)
 

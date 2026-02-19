@@ -14,11 +14,15 @@ run_case()
     code_file="$(mktemp)"
 
     if [ "${VALGRIND:-0}" = "1" ]; then
-        valgrind --leak-check=full --error-exitcode=42 "$MSH" < "$in" >"$out" 2>"$err" || true
+        set +e
+        valgrind --leak-check=full --error-exitcode=42 "$MSH" < "$in" >"$out" 2>"$err"
         rc="$?"
+        set -e
     else
-        "$MSH" < "$in" >"$out" 2>"$err" || true
+        set +e
+        "$MSH" < "$in" >"$out" 2>"$err"
         rc="$?"
+        set -e
     fi
 
     printf "%s\n" "$rc" > "$code_file"
