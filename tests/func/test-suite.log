@@ -1,0 +1,31 @@
+==============================================
+   minishell 1.0: tests/func/test-suite.log
+==============================================
+
+# TOTAL: 1
+# PASS:  0
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  1
+# XPASS: 0
+# ERROR: 0
+
+System information (uname -a): Linux 6.16.8+kali-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.16.8-1kali1 (2025-09-24) x86_64
+Distribution information (/etc/os-release):
+PRETTY_NAME="Kali GNU/Linux Rolling"
+NAME="Kali GNU/Linux"
+VERSION_ID="2025.4"
+VERSION="2025.4"
+VERSION_CODENAME=kali-rolling
+ID=kali
+ID_LIKE=debian
+HOME_URL="https://www.kali.org/"
+
+.. contents:: :depth: 2
+
+FAIL: run.sh
+============
+
+diff: cases/012-false.expected.out: Aucun fichier ou dossier de ce nom
+FAIL run.sh (exit status: 2)
+

@@ -1,0 +1,6 @@
+sh_ctx.o: sh_ctx.c /usr/include/stdc-predef.h \
+ ../../include/minishell/sh_ctx.h \
+ /usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h
+/usr/include/stdc-predef.h:
+../../include/minishell/sh_ctx.h:
+/usr/lib/gcc/x86_64-linux-gnu/15/include/stddef.h:
