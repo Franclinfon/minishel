@@ -5,6 +5,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include "minishell/builtins.h"
 #include "minishell/exec_command.h"
 
 static int status_from_wait(int wstatus)
@@ -29,7 +30,6 @@ static void print_err_open(const char *path)
         return;
     }
 
-    /* Minimal bash-like error line */
     dprintf(2, "minishell: %s: %s\n", path, strerror(errno));
 }
 
@@ -91,7 +91,70 @@ static int apply_redirs(const struct ast_redir_list *rlist)
     return 0;
 }
 
-int exec_command(struct sh_ctx *ctx, const struct ast_command *cmd)
+static int save_fd(int fd)
+{
+    int copy;
+
+    copy = dup(fd);
+    return copy;
+}
+
+static void restore_fd(int fd, int saved)
+{
+    if (saved >= 0)
+    {
+        dup2(saved, fd);
+        close(saved);
+    }
+}
+
+static int builtin_in_parent(struct sh_ctx *ctx, const struct ast_command *cmd)
+{
+    int saved_in;
+    int saved_out;
+    int saved_err;
+    int rc;
+
+    saved_in = save_fd(0);
+    saved_out = save_fd(1);
+    saved_err = save_fd(2);
+
+    if (saved_in < 0 || saved_out < 0 || saved_err < 0)
+    {
+        if (saved_in >= 0)
+            close(saved_in);
+        if (saved_out >= 0)
+            close(saved_out);
+        if (saved_err >= 0)
+            close(saved_err);
+        ctx->last_status = 1;
+        return -1;
+    }
+
+    if (apply_redirs(&cmd->redirs) != 0)
+    {
+        restore_fd(0, saved_in);
+        restore_fd(1, saved_out);
+        restore_fd(2, saved_err);
+        ctx->last_status = 1;
+        return -1;
+    }
+
+    rc = builtin_exec(ctx, cmd->argv);
+
+    /* Subject note: fflush(stdout) after builtin. */
+    fsync(1);
+
+    restore_fd(0, saved_in);
+    restore_fd(1, saved_out);
+    restore_fd(2, saved_err);
+
+    return rc;
+}
+
+int exec_command_mode(struct sh_ctx *ctx,
+                      const struct ast_command *cmd,
+                      int allow_parent_builtin)
 {
     pid_t pid;
     int wstatus;
@@ -99,6 +162,11 @@ int exec_command(struct sh_ctx *ctx, const struct ast_command *cmd)
     if (ctx == NULL || cmd == NULL || cmd->argv == NULL || cmd->argv[0] == NULL)
     {
         return 0;
+    }
+
+    if (allow_parent_builtin && builtin_is(cmd->argv[0]))
+    {
+        return builtin_in_parent(ctx, cmd);
     }
 
     pid = fork();
@@ -113,6 +181,12 @@ int exec_command(struct sh_ctx *ctx, const struct ast_command *cmd)
         if (apply_redirs(&cmd->redirs) != 0)
         {
             _exit(1);
+        }
+
+        if (builtin_is(cmd->argv[0]))
+        {
+            (void)builtin_exec(ctx, cmd->argv);
+            _exit(ctx->last_status);
         }
 
         execvp(cmd->argv[0], cmd->argv);

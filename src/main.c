@@ -3,6 +3,7 @@
 #include "minishell/ast/ast.h"
 #include "minishell/exec_simple.h"
 #include "minishell/exec_command.h"
+#include "minishell/exec_pipeline.h"
 #include "minishell/io.h"
 #include "minishell/lexer/lexer.h"
 #include "minishell/parser/parser.h"
@@ -19,7 +20,7 @@ static int exec_ast(struct sh_ctx *ctx, struct ast_node *node)
 
     if (node->kind == AST_COMMAND)
     {
-        return exec_command(ctx, &node->data.command);
+        return exec_command_mode(ctx, &node->data.command, 1);
     }
 
     if (node->kind == AST_LIST)
@@ -51,8 +52,7 @@ static int exec_ast(struct sh_ctx *ctx, struct ast_node *node)
 
     if (node->kind == AST_PIPELINE)
     {
-        ctx->last_status = 2;
-        return -1;
+        return exec_pipeline(ctx, &node->data.pipeline);
     }
 
     ctx->last_status = 2;

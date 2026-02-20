@@ -107,7 +107,8 @@ am__v_AR_1 =
 libms_exec_a_AR = $(AR) $(ARFLAGS)
 libms_exec_a_RANLIB = $(RANLIB)
 libms_exec_a_LIBADD =
-am_libms_exec_a_OBJECTS = exec_simple.$(OBJEXT) exec_command.$(OBJEXT)
+am_libms_exec_a_OBJECTS = exec_simple.$(OBJEXT) exec_command.$(OBJEXT) \
+	exec_pipeline.$(OBJEXT)
 libms_exec_a_OBJECTS = $(am_libms_exec_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
@@ -125,7 +126,7 @@ DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/exec_command.Po \
-	./$(DEPDIR)/exec_simple.Po
+	./$(DEPDIR)/exec_pipeline.Po ./$(DEPDIR)/exec_simple.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -265,7 +266,7 @@ top_builddir = ../..
 top_srcdir = ../..
 AM_CPPFLAGS = -I$(top_srcdir)/include
 noinst_LIBRARIES = libms_exec.a
-libms_exec_a_SOURCES = exec_simple.c exec_command.c
+libms_exec_a_SOURCES = exec_simple.c exec_command.c exec_pipeline.c
 all: all-am
 
 .SUFFIXES:
@@ -315,6 +316,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/exec_command.Po # am--include-marker
+include ./$(DEPDIR)/exec_pipeline.Po # am--include-marker
 include ./$(DEPDIR)/exec_simple.Po # am--include-marker
 
 $(am__depfiles_remade):
@@ -464,6 +466,7 @@ clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
 
 distclean: distclean-am
 	-rm -f ./$(DEPDIR)/exec_command.Po
+	-rm -f ./$(DEPDIR)/exec_pipeline.Po
 	-rm -f ./$(DEPDIR)/exec_simple.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -511,6 +514,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/exec_command.Po
+	-rm -f ./$(DEPDIR)/exec_pipeline.Po
 	-rm -f ./$(DEPDIR)/exec_simple.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

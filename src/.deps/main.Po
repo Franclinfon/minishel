@@ -28,8 +28,8 @@ main.o: main.c /usr/include/stdc-predef.h /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/stdio.h \
  ../include/minishell/exec_simple.h ../include/minishell/sh_ctx.h \
- ../include/minishell/exec_command.h ../include/minishell/io.h \
- /usr/include/x86_64-linux-gnu/sys/types.h \
+ ../include/minishell/exec_command.h ../include/minishell/exec_pipeline.h \
+ ../include/minishell/io.h /usr/include/x86_64-linux-gnu/sys/types.h \
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
@@ -78,6 +78,7 @@ main.o: main.c /usr/include/stdc-predef.h /usr/include/stdlib.h \
 ../include/minishell/exec_simple.h:
 ../include/minishell/sh_ctx.h:
 ../include/minishell/exec_command.h:
+../include/minishell/exec_pipeline.h:
 ../include/minishell/io.h:
 /usr/include/x86_64-linux-gnu/sys/types.h:
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:

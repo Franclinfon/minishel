@@ -344,27 +344,22 @@ config.status:895: creating tests/Makefile
 config.status:895: creating tests/unit/Makefile
 config.status:895: creating tests/func/Makefile
 config.status:895: creating config.h
-config.status:1076: config.h is unchanged
 config.status:1124: executing depfiles commands
 config.status:1199: cd src       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/utils       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/lexer       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/parser       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/ast       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/exec       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 config.status:1206: $? = 0
+config.status:1199: cd src/builtins       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1206: $? = 0
 config.status:1199: cd tests/unit       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 
 ## ---------------- ##
