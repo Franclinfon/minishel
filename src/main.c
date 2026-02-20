@@ -2,6 +2,7 @@
 
 #include "minishell/ast/ast.h"
 #include "minishell/exec_simple.h"
+#include "minishell/exec_command.h"
 #include "minishell/io.h"
 #include "minishell/lexer/lexer.h"
 #include "minishell/parser/parser.h"
@@ -18,7 +19,7 @@ static int exec_ast(struct sh_ctx *ctx, struct ast_node *node)
 
     if (node->kind == AST_COMMAND)
     {
-        return exec_simple(ctx, node->data.command.argv);
+        return exec_command(ctx, &node->data.command);
     }
 
     if (node->kind == AST_LIST)

@@ -362,9 +362,9 @@ config.status:1199: cd src/ast       && sed -e '/# am--include-marker/d' Makefil
 make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd src/exec       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
-make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 config.status:1199: cd tests/unit       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+make: Nothing to be done for 'am--depfiles'.
 config.status:1206: $? = 0
 
 ## ---------------- ##

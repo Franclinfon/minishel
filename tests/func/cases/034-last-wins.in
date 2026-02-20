@@ -1,0 +1,1 @@
+echo a > f > g; cat f; echo SEP; cat g

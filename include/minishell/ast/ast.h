@@ -12,6 +12,26 @@ enum ast_kind
     AST_LIST
 };
 
+enum ast_redir_type
+{
+    AST_REDIR_IN,
+    AST_REDIR_OUT,
+    AST_REDIR_APPEND
+};
+
+struct ast_redir
+{
+    int fd;
+    enum ast_redir_type type;
+    char *target;
+};
+
+struct ast_redir_list
+{
+    struct ast_redir *items;
+    size_t len;
+};
+
 enum ast_andor_op
 {
     AST_AND,
@@ -21,6 +41,7 @@ enum ast_andor_op
 struct ast_command
 {
     char **argv;
+    struct ast_redir_list redirs;
 };
 
 struct ast_vec
@@ -58,7 +79,7 @@ struct ast_node
     } data;
 };
 
-struct ast_node *ast_command_new(char **argv);
+struct ast_node *ast_command_new(char **argv, struct ast_redir_list redirs);
 struct ast_node *ast_pipeline_new(struct ast_node **items, size_t len);
 struct ast_node *ast_andor_new(enum ast_andor_op op,
                                struct ast_node *lhs,

@@ -22,6 +22,27 @@ static void free_argv(char **argv)
     free(argv);
 }
 
+static void redirs_free(struct ast_redir_list *r)
+{
+    size_t i;
+
+    if (r == NULL || r->items == NULL)
+    {
+        return;
+    }
+
+    i = 0;
+    while (i < r->len)
+    {
+        free(r->items[i].target);
+        i++;
+    }
+
+    free(r->items);
+    r->items = NULL;
+    r->len = 0;
+}
+
 static void ast_vec_free(struct ast_vec *v)
 {
     size_t i;
@@ -43,7 +64,7 @@ static void ast_vec_free(struct ast_vec *v)
     v->len = 0;
 }
 
-struct ast_node *ast_command_new(char **argv)
+struct ast_node *ast_command_new(char **argv, struct ast_redir_list redirs)
 {
     struct ast_node *node;
 
@@ -51,11 +72,13 @@ struct ast_node *ast_command_new(char **argv)
     if (node == NULL)
     {
         free_argv(argv);
+        redirs_free(&redirs);
         return NULL;
     }
 
     node->kind = AST_COMMAND;
     node->data.command.argv = argv;
+    node->data.command.redirs = redirs;
     return node;
 }
 
@@ -124,6 +147,7 @@ void ast_free(struct ast_node *node)
     if (node->kind == AST_COMMAND)
     {
         free_argv(node->data.command.argv);
+        redirs_free(&node->data.command.redirs);
     }
     else if (node->kind == AST_PIPELINE)
     {

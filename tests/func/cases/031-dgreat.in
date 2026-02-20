@@ -1,0 +1,1 @@
+echo a > f; echo b >> f; cat f
