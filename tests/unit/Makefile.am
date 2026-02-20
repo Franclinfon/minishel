@@ -9,7 +9,8 @@ unit_tests_SOURCES = \
 	test_vec.c \
 	test_lexer.c \
 	test_parser_command.c \
-	test_lexer_more.c
+	test_lexer_more.c \
+	test_parser_ops.c
 
 unit_tests_LDADD = \
 	$(CRITERION_LIBS) \

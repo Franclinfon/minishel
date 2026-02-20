@@ -100,11 +100,12 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__unit_tests_SOURCES_DIST = test_vec.c test_lexer.c \
-	test_parser_command.c test_lexer_more.c
+	test_parser_command.c test_lexer_more.c test_parser_ops.c
 am_unit_tests_OBJECTS = test_vec.$(OBJEXT) \
 	test_lexer.$(OBJEXT) \
 	test_parser_command.$(OBJEXT) \
-	test_lexer_more.$(OBJEXT)
+	test_lexer_more.$(OBJEXT) \
+	test_parser_ops.$(OBJEXT)
 unit_tests_OBJECTS = $(am_unit_tests_OBJECTS)
 am__DEPENDENCIES_1 =
 AM_V_P = $(am__v_P_$(V))
@@ -124,7 +125,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/test_lexer.Po \
 	./$(DEPDIR)/test_lexer_more.Po \
-	./$(DEPDIR)/test_parser_command.Po ./$(DEPDIR)/test_vec.Po
+	./$(DEPDIR)/test_parser_command.Po \
+	./$(DEPDIR)/test_parser_ops.Po ./$(DEPDIR)/test_vec.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -478,7 +480,8 @@ unit_tests_SOURCES = \
 	test_vec.c \
 	test_lexer.c \
 	test_parser_command.c \
-	test_lexer_more.c
+	test_lexer_more.c \
+	test_parser_ops.c
 
 unit_tests_LDADD = \
 	$(CRITERION_LIBS) \
@@ -541,6 +544,7 @@ distclean-compile:
 include ./$(DEPDIR)/test_lexer.Po # am--include-marker
 include ./$(DEPDIR)/test_lexer_more.Po # am--include-marker
 include ./$(DEPDIR)/test_parser_command.Po # am--include-marker
+include ./$(DEPDIR)/test_parser_ops.Po # am--include-marker
 include ./$(DEPDIR)/test_vec.Po # am--include-marker
 
 $(am__depfiles_remade):
@@ -885,6 +889,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/test_lexer.Po
 	-rm -f ./$(DEPDIR)/test_lexer_more.Po
 	-rm -f ./$(DEPDIR)/test_parser_command.Po
+	-rm -f ./$(DEPDIR)/test_parser_ops.Po
 	-rm -f ./$(DEPDIR)/test_vec.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -934,6 +939,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/test_lexer.Po
 	-rm -f ./$(DEPDIR)/test_lexer_more.Po
 	-rm -f ./$(DEPDIR)/test_parser_command.Po
+	-rm -f ./$(DEPDIR)/test_parser_ops.Po
 	-rm -f ./$(DEPDIR)/test_vec.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

@@ -9,6 +9,8 @@
 
 static int exec_ast(struct sh_ctx *ctx, struct ast_node *node)
 {
+    size_t i;
+
     if (ctx == NULL || node == NULL)
     {
         return 0;
@@ -17,6 +19,39 @@ static int exec_ast(struct sh_ctx *ctx, struct ast_node *node)
     if (node->kind == AST_COMMAND)
     {
         return exec_simple(ctx, node->data.command.argv);
+    }
+
+    if (node->kind == AST_LIST)
+    {
+        i = 0;
+        while (i < node->data.list.items.len)
+        {
+            (void)exec_ast(ctx, node->data.list.items.items[i]);
+            i++;
+        }
+        return 0;
+    }
+
+    if (node->kind == AST_ANDOR)
+    {
+        (void)exec_ast(ctx, node->data.andor.lhs);
+
+        if (node->data.andor.op == AST_AND && ctx->last_status == 0)
+        {
+            (void)exec_ast(ctx, node->data.andor.rhs);
+        }
+        else if (node->data.andor.op == AST_OR && ctx->last_status != 0)
+        {
+            (void)exec_ast(ctx, node->data.andor.rhs);
+        }
+
+        return 0;
+    }
+
+    if (node->kind == AST_PIPELINE)
+    {
+        ctx->last_status = 2;
+        return -1;
     }
 
     ctx->last_status = 2;
