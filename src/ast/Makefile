@@ -14,6 +14,7 @@
 
 
 
+
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
     false; \
@@ -97,6 +98,17 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+LIBRARIES = $(noinst_LIBRARIES)
+ARFLAGS = cr
+AM_V_AR = $(am__v_AR_$(V))
+am__v_AR_ = $(am__v_AR_$(AM_DEFAULT_VERBOSITY))
+am__v_AR_0 = @echo "  AR      " $@;
+am__v_AR_1 = 
+libms_ast_a_AR = $(AR) $(ARFLAGS)
+libms_ast_a_RANLIB = $(RANLIB)
+libms_ast_a_LIBADD =
+am_libms_ast_a_OBJECTS = ast.$(OBJEXT)
+libms_ast_a_OBJECTS = $(am_libms_ast_a_OBJECTS)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -109,15 +121,48 @@ AM_V_at = $(am__v_at_$(V))
 am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
 am__v_at_0 = @
 am__v_at_1 = 
-SOURCES =
-DIST_SOURCES =
+DEFAULT_INCLUDES = -I. -I$(top_builddir)
+depcomp = $(SHELL) $(top_srcdir)/depcomp
+am__maybe_remake_depfiles = depfiles
+am__depfiles_remade = ./$(DEPDIR)/ast.Po
+am__mv = mv -f
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_$(V))
+am__v_CC_ = $(am__v_CC_$(AM_DEFAULT_VERBOSITY))
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_$(V))
+am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
+SOURCES = $(libms_ast_a_SOURCES)
+DIST_SOURCES = $(libms_ast_a_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
-am__DIST_COMMON = $(srcdir)/Makefile.in
+# Read a list of newline-separated strings from the standard input,
+# and print each of them once, without duplicates.  Input order is
+# *not* preserved.
+am__uniquify_input = $(AWK) '\
+  BEGIN { nonempty = 0; } \
+  { items[$$0] = 1; nonempty = 1; } \
+  END { if (nonempty) { for (i in items) print i; }; } \
+'
+# Make sure the list of sources is unique.  This is necessary because,
+# e.g., the same source file might be shared among _SOURCES variables
+# for different programs/libraries.
+am__define_uniq_tagged_files = \
+  list='$(am__tagged_files)'; \
+  unique=`for i in $$list; do \
+    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
+  done | $(am__uniquify_input)`
+am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = ${SHELL} '/home/kali/Desktop/minishell/missing' aclocal-1.18
 AMTAR = $${TAR-tar}
@@ -217,9 +262,13 @@ target_alias =
 top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
+AM_CPPFLAGS = -I$(top_srcdir)/include
+noinst_LIBRARIES = libms_ast.a
+libms_ast_a_SOURCES = ast.c
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -249,12 +298,96 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-tags TAGS:
 
-ctags CTAGS:
+clean-noinstLIBRARIES:
+	-$(am__rm_f) $(noinst_LIBRARIES)
 
-cscope cscopelist:
+libms_ast.a: $(libms_ast_a_OBJECTS) $(libms_ast_a_DEPENDENCIES) $(EXTRA_libms_ast_a_DEPENDENCIES) 
+	$(AM_V_at)-rm -f libms_ast.a
+	$(AM_V_AR)$(libms_ast_a_AR) libms_ast.a $(libms_ast_a_OBJECTS) $(libms_ast_a_LIBADD)
+	$(AM_V_at)$(libms_ast_a_RANLIB) libms_ast.a
 
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT)
+
+distclean-compile:
+	-rm -f *.tab.c
+
+include ./$(DEPDIR)/ast.Po # am--include-marker
+
+$(am__depfiles_remade):
+	@$(MKDIR_P) $(@D)
+	@: >>$@
+
+am--depfiles: $(am__depfiles_remade)
+
+.c.o:
+	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Po
+#	$(AM_V_CC)source='$<' object='$@' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(AM_V_CC_no)$(COMPILE) -c -o $@ $<
+
+.c.obj:
+	$(AM_V_CC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+	$(COMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+	$(am__mv) $$depbase.Tpo $$depbase.Po
+#	$(AM_V_CC)source='$<' object='$@' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
+#	$(AM_V_CC_no)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+ID: $(am__tagged_files)
+	$(am__define_uniq_tagged_files); mkid -fID $$unique
+tags: tags-am
+TAGS: tags
+
+tags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
+	set x; \
+	here=`pwd`; \
+	$(am__define_uniq_tagged_files); \
+	shift; \
+	if test -z "$(ETAGS_ARGS)$$*$$unique"; then :; else \
+	  test -n "$$unique" || unique=$$empty_fix; \
+	  if test $$# -gt 0; then \
+	    $(ETAGS) $(ETAGSFLAGS) $(AM_ETAGSFLAGS) $(ETAGS_ARGS) \
+	      "$$@" $$unique; \
+	  else \
+	    $(ETAGS) $(ETAGSFLAGS) $(AM_ETAGSFLAGS) $(ETAGS_ARGS) \
+	      $$unique; \
+	  fi; \
+	fi
+ctags: ctags-am
+
+CTAGS: ctags
+ctags-am: $(TAGS_DEPENDENCIES) $(am__tagged_files)
+	$(am__define_uniq_tagged_files); \
+	test -z "$(CTAGS_ARGS)$$unique" \
+	  || $(CTAGS) $(CTAGSFLAGS) $(AM_CTAGSFLAGS) $(CTAGS_ARGS) \
+	     $$unique
+
+GTAGS:
+	here=`$(am__cd) $(top_builddir) && pwd` \
+	  && $(am__cd) $(top_srcdir) \
+	  && gtags -i $(GTAGS_ARGS) "$$here"
+cscopelist: cscopelist-am
+
+cscopelist-am: $(am__tagged_files)
+	list='$(am__tagged_files)'; \
+	case "$(srcdir)" in \
+	  [\\/]* | ?:[\\/]*) sdir="$(srcdir)" ;; \
+	  *) sdir=$(subdir)/$(srcdir) ;; \
+	esac; \
+	for i in $$list; do \
+	  if test -f "$$i"; then \
+	    echo "$(subdir)/$$i"; \
+	  else \
+	    echo "$$sdir/$$i"; \
+	  fi; \
+	done >> $(top_builddir)/cscope.files
+
+distclean-tags:
+	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) distdir-am
@@ -291,7 +424,7 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile
+all-am: Makefile $(LIBRARIES)
 installdirs:
 install: install-am
 install-exec: install-exec-am
@@ -325,11 +458,13 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-noinstLIBRARIES mostlyclean-am
 
 distclean: distclean-am
+	-rm -f ./$(DEPDIR)/ast.Po
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic
+distclean-am: clean-am distclean-compile distclean-generic \
+	distclean-tags
 
 dvi: dvi-am
 
@@ -372,12 +507,13 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
+	-rm -f ./$(DEPDIR)/ast.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-generic
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
 pdf: pdf-am
 
@@ -391,16 +527,18 @@ uninstall-am:
 
 .MAKE: install-am install-strip
 
-.PHONY: all all-am check check-am clean clean-generic cscopelist-am \
-	ctags-am distclean distclean-generic distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am tags-am uninstall uninstall-am
+.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
+	clean-generic clean-noinstLIBRARIES cscopelist-am ctags \
+	ctags-am distclean distclean-compile distclean-generic \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am
 
 .PRECIOUS: Makefile
 

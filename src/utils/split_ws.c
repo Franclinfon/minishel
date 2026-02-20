@@ -1,7 +1,7 @@
+#include "minishell/split_ws.h"
+
 #include <stdlib.h>
 #include <string.h>
-
-#include "minishell/split_ws.h"
 
 static int is_ws(char c)
 {

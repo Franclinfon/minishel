@@ -103,8 +103,8 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_minishell_OBJECTS = main.$(OBJEXT)
 minishell_OBJECTS = $(am_minishell_OBJECTS)
-minishell_DEPENDENCIES = utils/libms_utils.a lexer/libms_lexer.a \
-	parser/libms_parser.a ast/libms_ast.a exec/libms_exec.a \
+minishell_DEPENDENCIES = utils/libms_utils.a ast/libms_ast.a \
+	parser/libms_parser.a lexer/libms_lexer.a exec/libms_exec.a \
 	builtins/libms_builtins.a
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -307,9 +307,9 @@ minishell_SOURCES = main.c
 # Link
 minishell_LDADD = \
 	utils/libms_utils.a \
-	lexer/libms_lexer.a \
-	parser/libms_parser.a \
 	ast/libms_ast.a \
+	parser/libms_parser.a \
+	lexer/libms_lexer.a \
 	exec/libms_exec.a \
 	builtins/libms_builtins.a
 

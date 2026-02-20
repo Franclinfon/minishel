@@ -6,9 +6,9 @@ minishell_SOURCES = main.c
 # Link
 minishell_LDADD = \
 	utils/libms_utils.a \
-	lexer/libms_lexer.a \
-	parser/libms_parser.a \
 	ast/libms_ast.a \
+	parser/libms_parser.a \
+	lexer/libms_lexer.a \
 	exec/libms_exec.a \
 	builtins/libms_builtins.a
 

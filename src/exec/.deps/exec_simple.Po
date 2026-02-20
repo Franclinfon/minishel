@@ -1,4 +1,5 @@
 exec_simple.o: exec_simple.c /usr/include/stdc-predef.h \
+ ../../include/minishell/exec_simple.h ../../include/minishell/sh_ctx.h \
  /usr/include/errno.h /usr/include/features.h \
  /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -54,9 +55,10 @@ exec_simple.o: exec_simple.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
- /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- ../../include/minishell/exec_simple.h ../../include/minishell/sh_ctx.h
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h
 /usr/include/stdc-predef.h:
+../../include/minishell/exec_simple.h:
+../../include/minishell/sh_ctx.h:
 /usr/include/errno.h:
 /usr/include/features.h:
 /usr/include/features-time64.h:
@@ -119,5 +121,3 @@ exec_simple.o: exec_simple.c /usr/include/stdc-predef.h \
 /usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
 /usr/include/x86_64-linux-gnu/bits/getopt_core.h:
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
-../../include/minishell/exec_simple.h:
-../../include/minishell/sh_ctx.h:

@@ -1,9 +1,9 @@
+#include "minishell/exec_simple.h"
+
 #include <errno.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-#include "minishell/exec_simple.h"
 
 static int status_from_wait(int wstatus)
 {

@@ -1,9 +1,51 @@
 #include <stdlib.h>
 
+#include "minishell/ast/ast.h"
 #include "minishell/exec_simple.h"
 #include "minishell/io.h"
+#include "minishell/lexer/lexer.h"
+#include "minishell/parser/parser.h"
 #include "minishell/sh_ctx.h"
-#include "minishell/split_ws.h"
+
+static int exec_ast(struct sh_ctx *ctx, struct ast_node *node)
+{
+    if (ctx == NULL || node == NULL)
+    {
+        return 0;
+    }
+
+    if (node->kind == AST_COMMAND)
+    {
+        return exec_simple(ctx, node->data.command.argv);
+    }
+
+    ctx->last_status = 2;
+    return -1;
+}
+
+static int run_line(struct sh_ctx *ctx, const char *line)
+{
+    struct lexer lx;
+    struct ast_node *ast;
+
+    lexer_init(&lx, line);
+
+    ast = NULL;
+    if (parse_line(&lx, &ast) != 0)
+    {
+        ctx->last_status = 2;
+        ast_free(ast);
+        return -1;
+    }
+
+    if (ast != NULL)
+    {
+        (void)exec_ast(ctx, ast);
+    }
+
+    ast_free(ast);
+    return 0;
+}
 
 static int run_loop(struct sh_ctx *ctx, struct io_ctx *io)
 {
@@ -14,14 +56,7 @@ static int run_loop(struct sh_ctx *ctx, struct io_ctx *io)
     cap = 0;
     while (io_readline(io, &line, &cap) >= 0)
     {
-        char **argv;
-
-        argv = split_ws(line);
-        if (argv != NULL)
-        {
-            (void)exec_simple(ctx, argv);
-            split_ws_free(argv);
-        }
+        (void)run_line(ctx, line);
     }
 
     free(line);

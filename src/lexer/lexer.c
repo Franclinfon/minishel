@@ -3,9 +3,14 @@
 
 #include "minishell/lexer/lexer.h"
 
-static int is_ws(char c)
+static int is_hspace(char c)
 {
     return c == ' ' || c == '\t';
+}
+
+static int is_space(char c)
+{
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }
 
 static char *dup_range(const char *s, size_t start, size_t end)
@@ -38,6 +43,10 @@ static int match(struct lexer *lx, const char *s)
     i = 0;
     while (s[i] != '\0')
     {
+        if (lx->input[lx->pos + i] == '\0')
+        {
+            return 0;
+        }
         if (lx->input[lx->pos + i] != s[i])
         {
             return 0;
@@ -53,9 +62,25 @@ int lexer_next(struct lexer *lx, struct token *tok)
 {
     const char *in;
 
-    in = lx->input;
+    if (lx == NULL || tok == NULL)
+    {
+        return -1;
+    }
 
-    while (is_ws(in[lx->pos]))
+    in = lx->input;
+    if (in == NULL)
+    {
+        return -1;
+    }
+
+    /* Skip horizontal spaces only (keep NEWLINE visible). */
+    while (is_hspace(in[lx->pos]))
+    {
+        lx->pos++;
+    }
+
+    /* Ignore CR to support CRLF inputs. */
+    while (in[lx->pos] == '\r')
     {
         lx->pos++;
     }
@@ -126,7 +151,7 @@ int lexer_next(struct lexer *lx, struct token *tok)
         tok->lexeme = NULL;
         lx->pos++;
         return 0;
-    }    
+    }
 
     /* IONUMBER */
     if (in[lx->pos] >= '0' && in[lx->pos] <= '9')
@@ -138,16 +163,16 @@ int lexer_next(struct lexer *lx, struct token *tok)
         {
             lx->pos++;
         }
-
+   
         if (in[lx->pos] == '>' || in[lx->pos] == '<')
         {
             tok->type = TOK_IONUMBER;
             tok->lexeme = dup_range(in, start, lx->pos);
             return 0;
         }
-
+   
         lx->pos = start;
-    }
+     }
 
     /* WORD */
     {
@@ -155,7 +180,7 @@ int lexer_next(struct lexer *lx, struct token *tok)
 
         start = lx->pos;
         while (in[lx->pos] != '\0' &&
-               !is_ws(in[lx->pos]) &&
+               !is_space(in[lx->pos]) &&
                strchr("|;&<>", in[lx->pos]) == NULL)
         {
             lx->pos++;

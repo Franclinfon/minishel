@@ -3,6 +3,7 @@
 
 enum token_type
 {
+    TOK_IONUMBER,
     TOK_WORD,
     TOK_PIPE,
     TOK_AND_IF,
@@ -11,7 +12,6 @@ enum token_type
     TOK_GREAT,
     TOK_DGREAT,
     TOK_LESS,
-    TOK_IONUMBER,
     TOK_NEWLINE,
     TOK_EOF
 };

@@ -1,8 +1,8 @@
 #ifndef MINISHELL_IO_H
 #define MINISHELL_IO_H
 
-#include <stdio.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <sys/types.h>
 
 struct io_ctx

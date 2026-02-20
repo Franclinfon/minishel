@@ -1,6 +1,8 @@
 #ifndef MINISHELL_LEXER_H
 #define MINISHELL_LEXER_H
 
+#include <stddef.h>
+
 #include "minishell/lexer/token.h"
 
 struct lexer

@@ -1,6 +1,6 @@
-#include <stdio.h>
-
 #include "minishell/io.h"
+
+#include <stdio.h>
 
 int io_open(struct io_ctx *io, int argc, char **argv)
 {
